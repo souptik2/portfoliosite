@@ -125,31 +125,39 @@ contactForm.addEventListener("submit", function (e) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(jsonData),
-  }).then((response) => {
-    console.log("Success:", response);
-    if (response.status === 200) {
-      console.log(response.status);
-      showFormAlert("Message sent successfully!", "success");
-      submitButton.textContent = "Send Message";
-      this.reset();
-    } else {
-      showFormAlert("Oops! looks like need to fix something :-)", "error");
-      submitButton.textContent = "Send Message";
-    }
-  });
+  })
+    .then(
+      setTimeout(() => {
+        showFormAlert("Oops! looks like need to fix something :-)", "error");
+        submitButton.disabled = false;
+        submitButton.textContent = "Send Message";
+        this.reset();
+      }, 8000)
+    )
+    .then((response) => {
+      console.log("Success:", response);
+      if (response.status === 200) {
+        console.log(response.status);
+        showFormAlert("Message sent successfully!", "success");
+        submitButton.textContent = "Send Message";
+        this.reset();
+      } else {
+        showFormAlert("Oops! looks like need to fix something :-)", "error");
+        submitButton.textContent = "Send Message";
+      }
+      setTimeout(() => {
+        showFormAlert("Message sent successfully!", "success");
+        this.reset();
+        submitButton.disabled = false;
+        submitButton.textContent = "Send Message";
+      }, 1500);
+    });
   // .catch((error) => {
   //   console.error("Error:", error);
   //   alert("Error submitting form. Please try again.");
   //   showFormAlert("Error sending your message", "error");
   //   submitButton.textContent = "Send Message";
   // });
-
-  // setTimeout(() => {
-  //   showFormAlert("Message sent successfully!", "success");
-  //   this.reset();
-  //   submitButton.disabled = false;
-  //   submitButton.textContent = "Send Message";
-  // }, 1500);
 });
 
 // Helper function to validate email
