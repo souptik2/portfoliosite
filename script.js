@@ -119,7 +119,7 @@ contactForm.addEventListener("submit", function (e) {
   const submitButton = this.querySelector('button[type="submit"]');
   submitButton.textContent = "Sending...";
 
-  fetch("http://localhost:8082/path", {
+  fetch("https://hook.us2.make.com/bdpi9fgyhffrmmjw5zcypjrfm9oecbnc", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
