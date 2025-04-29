@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/android-chrome-192x192.png" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Souptik Das Portfolio</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", Arial, sans-serif; /* Apply the font globally */
+      }
+
+      body {
+        background: linear-gradient(135deg, #d3ebee 0%, #8cc6f2 100%);
+        color: #333;
+        transition: all 0.3s ease;
+      }
+
+      body.dark-mode {
+        background: linear-gradient(135deg, #33333d 0%, #3b3bc5 100%);
+        color: #ddd;
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: linear-gradient(
+          135deg,
+          #4799e1,
+          #02d0db
+        ); /* Gradient from light blue to cyan */
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 1.1rem;
+      }
+
+      .nav-links a:hover {
+        color: #ffeb3b;
+        transform: scale(1.1);
+        display: inline-block;
+      }
+
+      .right-buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Adds space between the buttons */
+      }
+
+      .download-btn,
+      .mode-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .navbar .mode-toggle {
+        background: #fff;
+        color: #007bff;
+        border: none;
+        padding: 8px 15px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        font-size: 1.2rem; /* Adjusted for icon size */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .navbar .mode-toggle:hover {
+        background: #ffeb3b;
+        color: #333;
+      }
+      .navbar .mode-toggle i {
+        pointer-events: none; /* Prevent click events on the icon */
+      }
+
+      /* Dark Mode Navbar*/
+      body.dark-mode .navbar {
+        background: linear-gradient(
+          135deg,
+          #172743,
+          #2a64c7
+        ); /* Gradient from dark blue to navy */
+      }
+
+      body.dark-mode footer {
+        background: linear-gradient(
+          135deg,
+          #172743,
+          #2a64c7
+        ); /* Gradient from dark blue to navy */
+      }
+
+      .download-btn {
+        background: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+      }
+
+      .download-btn:hover {
+        background: #218838;
+        transform: scale(1.05);
+      }
+
+      .hamburger {
+        display: none;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+      }
+
+      .section {
+        padding: 80px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeIn 0.8s ease forwards;
+      }
+
+      .section#profile {
+        padding-top: 120px; /* Increased padding to avoid overlap with navbar */
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #007bff;
+        text-align: center;
+      }
+
+      body.dark-mode h2 {
+        color: #ffeb3b;
+      }
+
+      .profile-summary,
+      .skills,
+      .experience,
+      .client-projects,
+      .personal-projects,
+      .certifications {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      body.dark-mode .profile-summary,
+      body.dark-mode .skills,
+      body.dark-mode .experience,
+      body.dark-mode .client-projects,
+      body.dark-mode .personal-projects,
+      body.dark-mode .certifications {
+        background: #333;
+        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+      }
+
+      .profile-photo {
+        display: block;
+        margin: 0 auto 20px;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #007bff;
+        transition: transform 0.3s ease;
+      }
+
+      .profile-photo:hover {
+        transform: scale(1.05);
+      }
+
+      .typing-animation {
+        text-align: center;
+        font-size: 1.2rem;
+        min-height: 1.5em;
+        overflow: hidden;
+      }
+
+      .typing-animation span {
+        display: inline-block;
+        opacity: 0;
+        animation: type 0.5s forwards;
+      }
+
+      @keyframes type {
+        to {
+          opacity: 1;
+        }
+      }
+
+      .contact-me {
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .contact-me p {
+        margin: 10px 0;
+        font-size: 1rem;
+      }
+
+      .contact-me a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .contact-me a:hover {
+        color: #ffeb3b;
+      }
+
+      body.dark-mode .contact-me a {
+        color: #ffeb3b;
+      }
+
+      body.dark-mode .contact-me a:hover {
+        color: #007bff;
+      }
+
+      .skills ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        list-style: none;
+      }
+
+      .skills li {
+        background: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: transform 0.3s ease;
+      }
+
+      .skills li:hover {
+        transform: scale(1.1);
+      }
+
+      .experience-item,
+      .project-item,
+      .certification-item {
+        margin-bottom: 20px;
+      }
+
+      .experience-item h3,
+      .project-item h3,
+      .certification-item h3 {
+        color: #007bff;
+        margin-bottom: 10px;
+      }
+
+      body.dark-mode .experience-item h3,
+      body.dark-mode .project-item h3,
+      body.dark-mode .certification-item h3 {
+        color: #ffeb3b;
+      }
+
+      .personal-projects p,
+      .personal-projects h3 {
+        font-size: 1rem;
+      }
+
+      footer {
+        background: linear-gradient(
+          135deg,
+          #4facfe,
+          #00f2fe
+        ); /* Gradient from light blue to cyan */
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        transition: all 0.3s ease;
+      }
+
+      footer p {
+        margin: 10px 0;
+        font-size: 1rem;
+      }
+
+      footer a {
+        color: #ffeb3b;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        color: #fff;
+      }
+
+      @media (max-width: 768px) {
+        .hamburger {
+          display: block;
+        }
+
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 60px;
+          left: 0;
+          width: 100%;
+          background: #007bff;
+          padding: 10px 0;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .nav-links a {
+          margin: 10px 0;
+          text-align: center;
+        }
+
+        .navbar .right-buttons {
+          display: flex;
+          gap: 10px;
+        }
+
+        h2 {
+          font-size: 2rem;
+        }
+
+        .section {
+          padding: 60px 10px;
+        }
+
+        .section#profile {
+          padding-top: 100px; /* Adjusted for smaller screens */
+        }
+
+        .profile-photo {
+          width: 120px;
+          height: 120px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .navbar {
+          padding: 10px;
+        }
+
+        h2 {
+          font-size: 1.8rem;
+        }
+
+        .section {
+          padding: 50px 5px;
+        }
+
+        .section#profile {
+          padding-top: 80px; /* Further adjusted for very small screens */
+        }
+
+        .skills li {
+          padding: 8px 12px;
+        }
+
+        .profile-photo {
+          width: 100px;
+          height: 100px;
+        }
+
+        .typing-animation {
+          font-size: 1rem;
+        }
+
+        .download-btn,
+        .mode-toggle {
+          padding: 6px 12px;
+          font-size: 0.8rem;
+        }
+
+        .contact-me p,
+        footer p {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <button class="hamburger" onclick="toggleMenu()">☰</button>
+      <div class="nav-links">
+        <a href="#profile">Profile</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#client-projects">Client Projects</a>
+        <a href="#personal-projects">Personal Projects</a>
+        <a href="#certifications">Certifications</a>
+      </div>
+      <div class="right-buttons">
+        <button class="download-btn" onclick="downloadResume()">
+          Download Resume
+        </button>
+        <button class="mode-toggle" onclick="toggleMode()">🌙</button>
+      </div>
+    </nav>
+
+    <section id="profile" class="section">
+      <h2>Profile Summary</h2>
+      <div class="profile-summary">
+        <img src="/Souptik_Das.png" alt="Profile Photo" class="profile-photo" />
+        <div class="typing-animation" id="typing-text"></div>
+        <div class="contact-me">
+          <p>
+            <span
+              id="phone"
+              onclick="copyToClipboard('phone')"
+              style="cursor: pointer; color: #007bff"
+            >
+              +91 9674170544
+            </span>
+          </p>
+          <p>
+            <span
+              id="email"
+              onclick="copyToClipboard('email')"
+              style="cursor: pointer; color: #007bff"
+            >
+              souptikdas2@gmail.com
+            </span>
+            <span style="cursor: pointer; color: #007bff"> • </span>
+            <span
+              id="email2"
+              onclick="copyToClipboard('email2')"
+              style="cursor: pointer; color: #007bff"
+            >
+              connect@souptikdas.in
+            </span>
+          </p>
+          <p>
+            <a
+              href="https://www.linkedin.com/in/soupt1kdas/"
+              target="_blank"
+              style="cursor: pointer; color: #007bff"
+              >linkedin profile</a
+            >
+          </p>
+          <p>
+            <a
+              href="https://medium.com/@souptikdas2"
+              target="_blank"
+              style="cursor: pointer; color: #007bff"
+              >Blogs</a
+            >
+          </p>
+        </div>
+        <p>
+          MuleSoft Developer with 3+ years of experience in designing scalable
+          integrations for insurance and financial domains. Expertise in API
+          migrations, custom connector development, and optimizing performance
+          for high-traffic applications. Skilled in on-premises, hybrid and
+          cloudHub deployments with a strong focus on security and resilience.
+          Delivered reliable applications with policies and MuleSoft best
+          practices ensuring compliance with enterprise standards.
+        </p>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <h2>Skills</h2>
+      <div class="skills">
+        <ul>
+          <li>MuleSoft Anypoint Platform</li>
+          <li>API Design & Development</li>
+          <li>REST/SOAP Web Services</li>
+          <li>DataWeave</li>
+          <li>CloudHub</li>
+          <li>Java</li>
+          <li>Azure Devops</li>
+          <li>Atlassian Suite</li>
+          <li>Jenkins</li>
+          <li>Bitbucket</li>
+          <li>Github</li>
+          <li>MQ</li>
+          <li>AKafka MQ</li>
+          <li>API Integrations</li>
+          <li>API Governance</li>
+          <li>CI/CD Integration</li>
+          <li>Agile Methodologies</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="experience" class="section">
+      <h2>Experience</h2>
+      <div class="experience">
+        <div class="experience-item">
+          <h3>Associate - Cognizant Technology Solutions</h3>
+          <p>Aug 2024 - Present</p>
+          <br />
+          <p>
+            • Designed and built reliable applications to process 20,000,000
+            transactions monthly, ensuring high availability.
+          </p>
+          <p>
+            • Implemented rollback strategies and developed circuit-breaker
+            connector to build resilient applications.
+          </p>
+          <p>
+            • Enhanced application security and vulnerabilities by integrating
+            credential vaults, PBE and secure properties.
+          </p>
+          <p>
+            • Led and managed 6+ end-to-end development projects, from
+            requirement gathering to production support.
+          </p>
+          <p>
+            • Conducted MUnit, load testing, performance testing and fine tuning
+            to improve application performance.
+          </p>
+          <p>
+            • Worked on both API led Connectivity and Event Driven Architecture
+            design patterns.
+          </p>
+        </div>
+        <div class="experience-item">
+          <h3>Programmer Analyst - Cognizant Technology Solutions</h3>
+          <p>Feb 2022 - Aug 2024</p>
+          <br />
+          <p>
+            • Upgraded 50+ APIs from Mule 3.9 to 4.4, enhancing security,
+            performance across diverse business operations.
+          </p>
+          <p>
+            • Developed custom Mule connectors, replacing deprecated components
+            to ensure seamless integration.
+          </p>
+          <p>
+            • Integrated MuleSoft with SMTP, WMQ, Webservices, Salesforce, Rest
+            services etc.
+          </p>
+          <p>
+            • Built secure file archival connectors, improving enterprise
+            compliance with security standards in file processing.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="client-projects" class="section">
+      <h2>Client Projects</h2>
+      <div class="client-projects">
+        <div class="project-item">
+          <h3>IA - TBP Make a Claim - V2</h3>
+          <p>Feb 2025 to Present</p>
+          <br />
+          <p>
+            Enhanced the V1 implementation by adding new features as per the
+            requirement from client and stake holders with improved data
+            handling, and optimized API performance for a more seamless claim
+            creation process between V3locity and TBP. Upgraded the System,
+            Process, and Experience APIs to support additional claim types,
+            validation rules, and enriched data transformations. Implemented
+            advanced error handling, retry mechanisms, and improved monitoring
+            to enhance system reliability. Optimized API response times and data
+            consistency while ensuring scalability for increased transaction
+            volumes. Collaborated closely with stakeholders to refine business
+            logic, enhance security, and introduce automated workflows that
+            streamlined the end-to-end claim creation process.
+          </p>
+        </div>
+        <div class="project-item">
+          <h3>IA - TBP Make a Claim - V1</h3>
+          <p>Mar 2024 to Jan 2025</p>
+          <br />
+          <p>
+            Designed and developed a multi-layered API led architecture with
+            System APIs (SAPI), Process APIs (PAPI), and Experience APIs (XAPI)
+            to orchestrate and streamline the claim creation process. Built
+            seamless integration between the source system V3locity and target
+            system TBP, ensuring efficient data flow, validation, and
+            transformation. Implemented error handling, logging, and monitoring
+            mechanisms to enhance system reliability and troubleshooting.
+            Ensured scalability and security while optimizing API performance
+            for smooth claim processing and minimal latency. Played a key role
+            in collaborating with stakeholders, refining requirements, and
+            ensuring business objectives were met in this vanilla version 1
+            implementation.
+          </p>
+        </div>
+        <div class="project-item">
+          <h3>INTACT - RSA Policy Archival</h3>
+          <p>Apr 2023 to Mar 2024</p>
+          <br />
+          <p>
+            Developed multiple APIs for policy archiving across different
+            business lines, including commercial and personal insurance.
+            Developed a secure file archival connector to archive policies using
+            password-protected storage, ensuring data security and compliance.
+            Built APIs to handle multi-million data processing, leveraging batch
+            processing, caching, rollback strategy, circuit breaking and
+            efficient exception handling. Implemented a robust alert system with
+            email notifications, enhancing monitoring and issue resolution.
+            Optimized performance and reliability using industry best practices,
+            ensuring seamless and scalable policy archiving.
+          </p>
+        </div>
+        <div class="project-item">
+          <h3>INTACT - Mule 3 to Mule 4 Migration</h3>
+          <p>Jul 2022 to Mar 2023</p>
+          <br />
+          <p>
+            Enhanced the V1 implementation by adding new features as per the
+            requirement from client and stake holders with improved data
+            handling, and optimized API performance for a more seamless claim
+            creation process between V3locity and TBP. Upgraded the System,
+            Process, and Experience APIs to support additional claim types,
+            validation rules, and enriched data transformations. Implemented
+            advanced error handling, retry mechanisms, and improved monitoring
+            to enhance system reliability. Optimized API response times and data
+            consistency while ensuring scalability for increased transaction
+            volumes. Collaborated closely with stakeholders to refine business
+            logic, enhance security, and introduce automated workflows that
+            streamlined the end-to-end claim creation processLed the migration
+            of 50+ APIs from Mule 3 to Mule 4, enhancing security, performance,
+            and scalability. Redesigned integrations, optimized error handling
+            and data transformation and ensured a seamless transition with
+            minimal business impact. Collaborated with teams to automate
+            deployment, reducing downtime and manual effort, resulting in
+            improved system efficiency and compliance.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="personal-projects" class="section">
+      <h2>Personal Projects</h2>
+      <div class="personal-projects">
+        <div class="project-item">
+          <h3>Custom Circuit Breaker Connector</h3>
+          <p>Tech staks - MuleSoft, JAVA</p>
+          <br />
+          <p>
+            • Enables circuit-breaking to prevent data loss during transaction
+            failures.
+          </p>
+          <p>• Modular design allows easy integration across applications.</p>
+        </div>
+        <div class="project-item">
+          <h3>Secured Archival Connector</h3>
+          <p>Tech staks - MuleSoft, JAVA</p>
+          <br />
+          <p>
+            • Archives multiple files based on regex with password-protected
+            folders.
+          </p>
+          <p>• Streamlined secure file storage for enterprise needs.</p>
+        </div>
+        <div class="project-item">
+          <h3>Application Monitor & Log Analyzer</h3>
+          <p>Tech staks - MuleSoft, JAVA, Database</p>
+          <br />
+          <p>
+            • Automated health checks and log analysis for exception tracking
+            and resolution.
+          </p>
+          <p>
+            • Reduced manual monitoring efforts by generating actionable
+            reports.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="certifications" class="section">
+      <h2>Certifications & Achievements</h2>
+      <div class="certifications">
+        <div class="certification-item">
+          <h3>MuleSoft Certified Developer - Level 1</h3>
+          <p>Obtained in 2022</p>
+        </div>
+        <div class="certification-item">
+          <h3>MuleSoft Certified Developer - Level 2</h3>
+          <p>Obtained in 2025</p>
+        </div>
+        <div class="certification-item">
+          <h3>MuleSoft Certified Integration Associate</h3>
+          <p>Obtained in 2022</p>
+        </div>
+        <div class="certification-item">
+          <h3>Salesforce AI Associate</h3>
+          <p>Obtained in 2025</p>
+        </div>
+        <div class="certification-item">
+          <h3>
+            Recognized for outstanding performance by Cognizant Leadership
+          </h3>
+          <p>Awarded in 2024</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        Phone:
+        <span
+          id="phone"
+          onclick="copyToClipboard('phone')"
+          style="cursor: pointer; color: #fbff00"
+        >
+          +91 9674170544
+        </span>
+      </p>
+      <p>
+        Email:
+        <span
+          id="email"
+          onclick="copyToClipboard('email')"
+          style="cursor: pointer; color: #fbff00"
+        >
+          souptikdas2@gmail.com
+        </span>
+        <span
+          id="email2"
+          onclick="copyToClipboard('email2')"
+          style="cursor: pointer; color: #fbff00"
+        >
+          connect@souptikdas.in
+        </span>
+      </p>
+      <p>
+        <a href="https://www.linkedin.com/in/soupt1kdas/" target="_blank"
+          >linkedin profile</a
+        >
+      </p>
+      <p>
+        <a
+          href="https://medium.com/@souptikdas2"
+          target="_blank"
+          style="cursor: pointer; color: #fbff00"
+          >Blogs</a
+        >
+      </p>
+    </footer>
+
+    <script>
+      function copyToClipboard(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            alert(`Copied: ${text}`);
+          })
+          .catch((err) => {
+            console.error("Failed to copy text: ", err);
+          });
+      }
+      function toggleMode() {
+        document.body.classList.toggle("dark-mode");
+        const button = document.querySelector(".mode-toggle");
+        const isDarkMode = document.body.classList.contains("dark-mode");
+        button.innerHTML = isDarkMode ? "☀️" : "🌙"; // Sun for light mode, moon for dark mode
+      }
+
+      function downloadResume() {
+        const link = document.createElement("a");
+        link.href = "/Souptik_Das_Resume.pdf"; // Replace with the actual path to your resume file
+        link.download = "Souptik_Das_Resume.pdf"; // The name of the file to be downloaded
+        link.click();
+        //alert('Resume download initiated!');
+      }
+
+      function toggleMenu() {
+        const navLinks = document.querySelector(".nav-links");
+        navLinks.classList.toggle("active");
+      }
+
+      document.querySelectorAll(".nav-links a").forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("href").substring(1);
+          const targetSection = document.getElementById(targetId);
+          window.scrollTo({
+            top: targetSection.offsetTop - 60,
+            behavior: "smooth",
+          });
+          if (window.innerWidth <= 768) {
+            toggleMenu();
+          }
+        });
+      });
+
+      // Typing animation
+      const texts = [
+        "MuleSoft Developer",
+        "MuleSoft Mentor",
+        "Integration Specialist",
+        "MuleSoft Expert",
+      ];
+      let textIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      const typingElement = document.getElementById("typing-text");
+
+      function type() {
+        const currentText = texts[textIndex];
+        if (!isDeleting && charIndex <= currentText.length) {
+          typingElement.innerHTML = currentText.substring(0, charIndex);
+          charIndex++;
+          setTimeout(type, 100);
+        } else if (isDeleting && charIndex >= 0) {
+          typingElement.innerHTML = currentText.substring(0, charIndex);
+          charIndex--;
+          setTimeout(type, 50);
+        } else {
+          isDeleting = !isDeleting;
+          if (!isDeleting) {
+            textIndex = (textIndex + 1) % texts.length;
+          }
+          setTimeout(type, isDeleting ? 50 : 1000);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(type, 500);
+      });
+    </script>
+  </body>
+</html>
